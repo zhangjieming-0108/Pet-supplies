@@ -47,6 +47,7 @@
         position: relative;
         left: 4px;
         top:2px;
+        background: #fff;
         
     }
     /* 图案里的每条线 */

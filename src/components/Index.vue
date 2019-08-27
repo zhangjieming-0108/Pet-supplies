@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="margin-bottom:60px">
         <!-- 选中要显示的面板 -->
         <mt-tab-container v-model="selected">
             <mt-tab-container-item id="index">
@@ -7,7 +7,8 @@
                     <indexitem></indexitem>
             </mt-tab-container-item>
             <mt-tab-container-item id="kind">
-                    分类
+                    <!-- 应用分类面板组件 -->
+                    <kinditem></kinditem>
             </mt-tab-container-item>
             <mt-tab-container-item id="shop">
                     购物
@@ -47,10 +48,12 @@
     </div>
 </template>
 <script>
-// 引入子组件
-import IndexItem from "../views/index/IndexItem"
 // 引入首页面板组件
+import IndexItem from "../views/index/IndexItem"
+// 引入底部导航栏图标组件
 import TabBarIcon from "./TabBarIcon"
+// 引入分类面板组件
+import KindItem from "../views/kind/KindItem"
     export default{
         data(){
             return{
@@ -78,8 +81,12 @@ import TabBarIcon from "./TabBarIcon"
         },
         // 注册
         components:{
+            // 注册底部导航栏图标组件
             "tabbaricon":TabBarIcon,
-            "indexitem":IndexItem
+            //注册首页面板组件
+            "indexitem":IndexItem,
+            // 注册分类面板组件
+            "kinditem":KindItem
         }
     }
 </script>

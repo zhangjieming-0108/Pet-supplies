@@ -51,6 +51,7 @@
         width: 100%;
         display: flex;
         justify-content:space-around;
+        flex-wrap: wrap;
     }
     .hotsale-item>.item-content{
         width: 104px;
@@ -81,5 +82,6 @@
         width: 112px;
         height: 36px;
         margin: 10px auto;
+        line-height: 36px;
     }
 </style>

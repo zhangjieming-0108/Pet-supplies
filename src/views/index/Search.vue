@@ -5,7 +5,7 @@
     v-model="value"
     cancel-text="取消"
     placeholder="请输入搜索内容"
-    :result.sync="result"
+
      class="search"
     >
     </mt-search>

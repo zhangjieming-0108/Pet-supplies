@@ -21,6 +21,9 @@
         width: 100%;
         height: 170px;
     }
+    .mint-swipe-indicator.is-active{
+      background:red;
+    }
     /* 图片的样式 */
     .img{
         width: 100%;

@@ -10,6 +10,11 @@
         <kind></kind>
         <!-- 应用热卖组件 -->
         <hotsale></hotsale>
+        <!--应用热卖品牌组件 -->
+        <hotbrand></hotbrand>
+        <!-- 应用新品推荐组件 -->
+        <recommendproduct></recommendproduct>
+
     </div>
 </template>
 <script>
@@ -23,6 +28,10 @@ import Search from "./Search"
 import Kind from "./Kind"
 // 引入热卖组件
 import hotSale  from "./hotSale"
+// 引入热卖品牌组件
+import HotBrand from "./HotBrand"
+// 引入新品推荐组件
+import RecommendProduct from "./RecommendProduct"
     export default{
         data(){
             return{}
@@ -38,7 +47,11 @@ import hotSale  from "./hotSale"
             // 注册分类组件
             "kind":Kind,
             // 注册热卖组件
-            "hotsale":hotSale
+            "hotsale":hotSale,
+            // 注册热卖品牌组件
+            "hotbrand":HotBrand,
+            // 注册新品推荐组件
+            "recommendproduct":RecommendProduct
         }
     }
 </script>
