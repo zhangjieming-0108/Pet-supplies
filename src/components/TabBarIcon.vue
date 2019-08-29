@@ -2,7 +2,7 @@
 <template>
   <div>
       <!-- 当foucused为true时显示选中图片否则显示默认图片 -->
-   <img :src="focused?selectedImage:normalImage" alt="" class="imgstyle"/>
+   <img :src="focused?selectedImage:normalImage" alt="图片已损坏" class="imgstyle"/>
   </div>
 </template>
 <script>

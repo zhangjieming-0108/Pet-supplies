@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-bottom:60px">
+    <div style="margin-bottom:60px; overflow:auto;">
         <!-- 选中要显示的面板 -->
         <mt-tab-container v-model="selected">
             <mt-tab-container-item id="index">
@@ -11,10 +11,12 @@
                     <kinditem></kinditem>
             </mt-tab-container-item>
             <mt-tab-container-item id="shop">
-                    购物
+                   <!-- 应用购物车面板组件 -->
+                   <shopitem></shopitem>
             </mt-tab-container-item>
             <mt-tab-container-item id="me">
-                    我的
+                    <!-- 应用用户面板组件 -->
+                    <user></user>
             </mt-tab-container-item>
         </mt-tab-container>
         <!-- 底部导航栏 -->
@@ -33,15 +35,18 @@
                 :focused="currentIndex[1].isSelect"></tabbaricon>
                 分类
             </mt-tab-item>
-            <mt-tab-item id="shop">
-                <img slot="icon" src="@/assets/shop.png">
+            <mt-tab-item id="shop" @click.native="changeState(2)" >
+                <tabbaricon
+                :normalImage="require('../assets/shop.png')"
+                :selectedImage="require('../assets/shop_active.png')"
+                :focused="currentIndex[2].isSelect"></tabbaricon>
                 购物
             </mt-tab-item>
-            <mt-tab-item id="me" @click.native="changeState(2)">
+            <mt-tab-item id="me" @click.native="changeState(3)">
                  <tabbaricon
                 :normalImage="require('../assets/user.png')"
                 :selectedImage="require('../assets/user_active.png')"
-                :focused="currentIndex[2].isSelect"></tabbaricon>
+                :focused="currentIndex[3].isSelect"></tabbaricon>
                 我的
             </mt-tab-item>
 </mt-tabbar>
@@ -54,6 +59,10 @@ import IndexItem from "../views/index/IndexItem"
 import TabBarIcon from "./TabBarIcon"
 // 引入分类面板组件
 import KindItem from "../views/kind/KindItem"
+// 引入购物车面板组件
+import ShopItem from "../views/shop/ShopItem"
+// 引入用户面板组件
+import User from "../views/user/User"
     export default{
         data(){
             return{
@@ -61,6 +70,7 @@ import KindItem from "../views/kind/KindItem"
                 // 保存焦点后的状态
                 currentIndex:[
                     {isSelect:true},
+                    {isSelect:false},
                     {isSelect:false},
                     {isSelect:false}
                 ]
@@ -86,7 +96,11 @@ import KindItem from "../views/kind/KindItem"
             //注册首页面板组件
             "indexitem":IndexItem,
             // 注册分类面板组件
-            "kinditem":KindItem
+            "kinditem":KindItem,
+            // 注册购物车面板组件
+            "shopitem":ShopItem ,
+            // 注册用户面板组件
+            "user":User
         }
     }
 </script>
