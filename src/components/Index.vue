@@ -16,7 +16,7 @@
             </mt-tab-container-item>
             <mt-tab-container-item id="me">
                     <!-- 应用用户面板组件 -->
-                    <user></user>
+                    
             </mt-tab-container-item>
         </mt-tab-container>
         <!-- 底部导航栏 -->
@@ -61,8 +61,7 @@ import TabBarIcon from "./TabBarIcon"
 import KindItem from "../views/kind/KindItem"
 // 引入购物车面板组件
 import ShopItem from "../views/shop/ShopItem"
-// 引入用户面板组件
-import User from "../views/user/User"
+
     export default{
         data(){
             return{
@@ -79,6 +78,7 @@ import User from "../views/user/User"
         methods:{
             // 将对当前参数的下标，对应的数组值修改为true,其他为false
             changeState(n){
+                if(n==3){this.$router.push("/Login");}
                 for(var i=0;i<this.currentIndex.length;i++){
                     // 判断如果循环下标与n相等，相等显示对应的图片，其他都不显示
                     if(n==i){
@@ -98,9 +98,7 @@ import User from "../views/user/User"
             // 注册分类面板组件
             "kinditem":KindItem,
             // 注册购物车面板组件
-            "shopitem":ShopItem ,
-            // 注册用户面板组件
-            "user":User
+            "shopitem":ShopItem 
         }
     }
 </script>

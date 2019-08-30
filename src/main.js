@@ -12,8 +12,10 @@ Vue.use(MintUI)
 import axios from 'axios'
 // 注册axios，由于axios不支持use将实列添加vue原型
 Vue.prototype.axios=axios;
-// 配置axios的基础路径
-//axios.defaults,baseURL="http://127.0.0.1:3000/"
+// 配置axios基础路径
+axios.defaults.baseURL="http://127.0.0.1:3000/"
+// 配置axios保存sess信息
+axios.defaults.withCredentials=true
 
 Vue.config.productionTip = false
 

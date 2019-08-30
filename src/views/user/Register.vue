@@ -10,8 +10,14 @@
             <mt-field  label="邮箱" placeholder="请输入邮箱" type="email" v-model="email"  :state="uemail" @blur.native.capture="blurEmail"></mt-field>
             <mt-field  label="手机" placeholder="请输入手机号" type="tel" v-model="phone"  :state="uphone" class="phone" @blur.native.capture="blurPhone"></mt-field>
         </div>
+        <div class="gender">
+            <div class="gender-item">性别</div>
+            <input id="sex" type="radio" value="1" checked v-model="gender"><label for="sex">男</label>
+			<input id="sex1" type="radio" value="0" v-model="gender"><label for="sex1">女</label>
+        </div>
         <div class="btn">
-           <mt-button  size="large" class="reg" @click="reg">注册</mt-button>
+           <mt-button  size="large" class="btn-top" @click="reg">注册</mt-button>
+           <mt-button  size="large" type="default" class="btn-buttom" @click="login">登录</mt-button>
         </div>
        
     </div>
@@ -25,6 +31,7 @@
                 password:"",
                 email:"",
                 phone:"",
+                gender:"1",
                 // 正则检验的过后显示的样式
                 uname:"",
                 upwd:"",
@@ -42,6 +49,9 @@
         },
        
         methods:{
+            login(){
+                this.$router.push("/Login");//跳到登录页面
+            },
             go(){
                 this.$router.go(-1);//返回上一层
             },
@@ -55,6 +65,7 @@
                 var ereg=this.ereg;
                 var phone=this.phone;
                 var preg=this.preg;
+                var gender=this.gender;
                 //当验证到某个输入框不通过就发出提示信息
                 if(!nreg.test(username)){
                     this.$messagebox("信息","用户名格式不正确");
@@ -71,9 +82,11 @@
                 }
                 // 发送ajax请求
                 var url="register";
-                var obj={uname:username,upwd:password,email:email,phone:phone};
-                 this.axios.post(url,{params:obj}).then(res=>{
-                     console.log(res);
+                var obj={uname:username,upwd:password,email:email,phone:phone,sex:gender};
+                 this.axios.post(url,obj).then(res=>{
+                      console.log(res);
+                     this.$toast('注册成功请登录');
+                     this.$router.push("/Login");
                  })  
             },
             // 用户名输入框失去焦点时验证
@@ -81,7 +94,8 @@
                 var  username=this.username;
                 var reg=this.nreg;
                 if(!reg.test(username)){
-                    this.uname="error"
+                    this.uname="error";
+                    this.$toast('请输入正确的用户名格式');
                 }else{
                     this.uname="success"
                 }
@@ -91,7 +105,8 @@
                 var password=this.password;
                 var reg=this.wreg;
                 if(!reg.test(password)){
-                    this.upwd="error"
+                    this.upwd="error";
+                    this.$toast('请输入正确的密码格式');
                 }else{
                     this.upwd="success"
                 }
@@ -103,6 +118,7 @@
                 // var reg=/^[a-zA-Z0-9]+@[a-zA-Z0-9]+(.com|.cn)$/i;
                 if(!reg.test(email)){
                     this.uemail="error";
+                    this.$toast('请输入正确的邮箱格式');
                 }else{
                     this.uemail="success"
                 }
@@ -113,6 +129,7 @@
                 var reg=this.preg;
                 if(!reg.test(phone)){
                     this.uphone="error";
+                    this.$toast('请输入正确的手机号格式');
                 }else{
                     this.uphone="success"
                 }
@@ -138,8 +155,9 @@
         font-size: 28px;
     }
     .register-head>span:nth-child(2){
-        margin: 0 auto;
+        text-align: center;
         line-height: 37px;
+        margin-left:-5%;
     }
     /* 修改输入框的样式 */
      .register-content>.phone{
@@ -149,11 +167,24 @@
     .register-content>.uname{
          padding: 0 10px;
     }
-    /* 按钮 */
-    .register>.btn{
+    /* 性别 */
+    .register>.gender{
+        display: flex;
+    }
+    .gender>.gender-item{
+        width: 108px;
         padding: 0 10px;
     }
-    .register>.btn>.reg{
-        background: #FD4500;
+    /* 按钮 */
+    .register>.btn{
+        width: 100%;
+        padding: 15px 25px;
+        box-sizing: border-box;
     }
+    .register>.btn>.btn-top{
+        background: #FD4500;
+        margin: 10px 0;
+        padding: 0 10px;
+    }
+    
 </style>
