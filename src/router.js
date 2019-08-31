@@ -6,7 +6,7 @@ import Register from "./views/user/Register.vue"
 // 引入登录组件
 import Login from "./views/user/Login.vue"
 // 引入详情组件
-import Product from "./views/kind/Product.vue"
+import Product from "./views/product/Product.vue"
 
 Vue.use(Router)
 
