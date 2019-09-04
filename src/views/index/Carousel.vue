@@ -1,17 +1,27 @@
 <template>
 <!-- 轮播组件 -->
     <mt-swipe :auto="3000"  class="carousel">
-        <mt-swipe-item ><img class="img" src="../../assets/carousel-1.png" alt="图片以损坏"></mt-swipe-item>
-        <mt-swipe-item><img class="img" src="../../assets/carousel-2.png" alt="图片以损坏"></mt-swipe-item>
-        <mt-swipe-item ><img class="img" src="../../assets/carousel-3.png" alt="图片以损坏"></mt-swipe-item>
+        <mt-swipe-item v-for="(elem,i) of carousel" :key="i" @click.native="goproduct(elem.pid)"><img class="img" :src="'http://127.0.0.1:3000/' + elem.img_url" alt="图片以损坏"></mt-swipe-item>
     </mt-swipe>
 </template>
 <script>
     export default{
         data(){
             return{
-                
+               carousel:[]//保存请求回来的数据 
             }
+        },
+        methods:{
+            // 跳转到详情页
+            goproduct(pid){
+                this.$router.push(`/Product/${pid}`);
+            },
+        },
+        created(){
+            var url="carousel";
+            this.axios.get(url).then(res=>{
+                this.carousel=res.data.data;
+            });
         }
     }
 </script>

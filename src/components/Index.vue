@@ -78,6 +78,8 @@ import ShopItem from "../views/shop/ShopItem"
         methods:{
             // 将对当前参数的下标，对应的数组值修改为true,其他为false
             changeState(n){
+                // 如果点击到
+                if(n==2){this.$router.push("/ShopCart");}
                 if(n==3){this.$router.push("/Login");}
                 for(var i=0;i<this.currentIndex.length;i++){
                     // 判断如果循环下标与n相等，相等显示对应的图片，其他都不显示
@@ -87,7 +89,12 @@ import ShopItem from "../views/shop/ShopItem"
                         this.currentIndex[i].isSelect=false;
                     }
                 }
-            }
+            },
+            // jumpCart(){
+            // //查看购物车操作
+            // //跳转购物车组件
+            // this.$router.push("/ShopCart")
+            // },
         },
         // 注册
         components:{

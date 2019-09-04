@@ -84,7 +84,6 @@
                 var url="register";
                 var obj={uname:username,upwd:password,email:email,phone:phone,sex:gender};
                  this.axios.post(url,obj).then(res=>{
-                      console.log(res);
                      this.$toast('注册成功请登录');
                      this.$router.push("/Login");
                  })  

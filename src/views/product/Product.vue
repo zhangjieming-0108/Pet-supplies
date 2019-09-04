@@ -7,18 +7,18 @@
             <span>商品</span>
         </div>
         <!-- 商品轮播图 -->
-       <mt-swipe :auto="3000" class="product">
-            <mt-swipe-item><img class="img" src="../../assets/product/hot-2.png" alt="图片以损坏"></mt-swipe-item>
-            <mt-swipe-item><img class="img" src="../../assets/product/hot-2.png" alt="图片以损坏"></mt-swipe-item>
-            <mt-swipe-item><img class="img" src="../../assets/product/hot-2.png" alt="图片以损坏"></mt-swipe-item>
+       <mt-swipe :auto="3000" class="product1">
+            <mt-swipe-item><img class="img" :src="'http://127.0.0.1:3000/' + list.Pimg"  alt="图片以损坏"></mt-swipe-item>
+            <mt-swipe-item><img class="img" :src="'http://127.0.0.1:3000/' + list.Pimg" alt="图片以损坏"></mt-swipe-item>
+            <mt-swipe-item><img class="img" :src="'http://127.0.0.1:3000/' + list.Pimg" alt="图片以损坏"></mt-swipe-item>
        </mt-swipe>
        <!-- 商品内容 -->
        <p class="product-content">
-          韩国派莫宁水晶猫砂3.8L 猫沙 除臭 除臭猫砂 猫清洁用品 猫咪清洁 6包 
+          {{list.pname}}
        </p>
        <!-- 商品价格 -->
        <span class="prict">
-         ￥60元
+         ￥{{list.price}}
        </span>
        <!-- 相关推荐 -->
         <div class="relevant">相关推荐</div>
@@ -66,11 +66,11 @@
         <div class="add-shop-content" v-show="show">
                  <div class="add-shop-item">
                      <!-- 图片 -->
-                     <img src="../../assets/product/hot-3.png" alt="图片已损坏">
+                     <img class="img" :src="'http://127.0.0.1:3000/' + list.Pimg"  alt="图片以损坏">
                      <!-- 内容 -->
                      <div class="add-shop-product-content">
-                         <span>诗瑞 幼猫成猫猫粮 天然 室内成猫粮2.5kg(买一赠三)</span>
-                         <span>￥{{price}}</span>
+                         <span>{{list.pname}}</span>
+                         <span>￥{{list.price}}</span>
                      </div>
                      <!-- 清除隐藏 -->
                      <div class="add-shop-item-clear" @click="isShow"><span>×</span></div>
@@ -84,7 +84,14 @@
                          <span @click="add">＋</span>
                      </div>
                  </div>
-                <mt-button size="large" @click="pushshop">确定</mt-button>
+                 <!-- @click.native="pushshop" -->
+                <mt-button size="large" @click.native="addCart"
+                :data-pid="list.pid"
+                :data-Pimg="list.Pimg"
+                :data-pname="list.pname"
+                :data-price="list.price"
+                :data-count="vulue"
+                >确定</mt-button>
         </div>
     </div>
 </template>
@@ -92,24 +99,55 @@
     export default{
         data(){
              return{
+                 list:{Pimg:'3170817_1249396_11467971609.jpg'},//保存数据请求回来的数据
                  show:"",//遮罩层和加入购物车显示或隐藏的状态
                  vulue:"1",//加入购物车商品的数量
-                 price:160//模拟价钱
              }
         },
+        // 获取地址栏传来的参数
+        props:["pid"],
         computed:{
            sum(){
-            var sum1=this.price*this.vulue;
+            var sum1=this.list.price*this.vulue;
             return sum1;
            } 
         },
+        created(){
+            // 发送ajax请求
+            var url="product";
+            var obj={pid:this.pid}
+            this.axios.get(url,{params:obj}).then(res=>{
+                this.list=res.data.data[0];
+            });
+        },
         methods:{
             // 点击确定时加入购物车
-            pushshop(){
-                this.axios.post(url,obj).then(res=>{
-                    this.$toast('已加入购物车');
-                    this.show=!this.show;
-                })
+            addCart(e){
+                // 将功能添加至购物车
+                //获取当前商品的编号
+                var pid=e.target.dataset.pid;
+                //获取当前商品图片
+                var Pimg=e.target.dataset.pimg;
+                //获取当前商品的名称
+                var pname=e.target.dataset.pname;
+                // 获取当前商品的价格
+                var price=e.target.dataset.price;
+                // 获取当前商品的数量
+                var count=e.target.dataset.count;
+                // 发送ajax请求 
+                //创建请求接口
+                var url="addcart";
+                //请求参数
+                var obj={pid:pid,Pimg:Pimg,pname:pname,price:price,count:count};
+                //请求返回结果
+                this.axios.get(url,{params:obj}).then(res=>{
+                    // 如果返回-1提示用户登录
+                    if(res.data.code===-1){
+                        this.$toast("请先登录")
+                    }else{
+                         this.$toast("添加成功")
+                    }
+                });
             },
             // 点击减按钮时商品数量自减
             reduce(){
@@ -166,7 +204,7 @@
         margin-left:-5%;
     }
     /* 轮播图图片 */
-    div>.product{
+    div>.product1{
    width: 100%;
     height:300px;
    }
@@ -186,8 +224,8 @@
    }
    /* 本商品内容 */
    .product-content{
+    width: 100% !important;
     display: block;
-    line-height: 24px;
     float: left;
     font-size: 15px;
     color: #232326;

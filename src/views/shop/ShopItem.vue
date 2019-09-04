@@ -2,7 +2,7 @@
 <!-- 购物车显示面板组件 -->
     <div class="shop">
         <div>
-           <a href="javascript:history.go(-1)" class="return_url"><img src="../../assets/return.png"></a>
+           <a href="javascript:;" class="return_url" @click="go"><img src="../../assets/return.png"></a>
             购物车
         </div>
         <img src="../../assets/shop/shop.png" alt="图片已损坏">
@@ -14,6 +14,11 @@
     export default{
         data(){
             return{}
+        },
+        methods:{
+            go(){
+                this.$router.go(-1);//返回上一层
+            },
         }
     }
 </script>
@@ -38,7 +43,7 @@
     left: 10px;
     display: inline-block;
     line-height: 40px;
-    width: 10px;
+    width: 20px;
     z-index: 30;
     position: fixed;
     

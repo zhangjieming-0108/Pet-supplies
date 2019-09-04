@@ -34,7 +34,9 @@ import HotBrand from "./HotBrand"
 import RecommendProduct from "./RecommendProduct"
     export default{
         data(){
-            return{}
+            return{
+                
+            }
         },
         // 注册
         components:{
