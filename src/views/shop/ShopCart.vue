@@ -11,51 +11,124 @@
             <span>全选</span>
         </div>
         <!-- 内容 -->
-        <div class="shop-product">
-            <input type="checkbox" class="select">
-            <img src="../../assets/product/hot-2.png" alt="">
+        <div class="shop-product" v-for="(item,i) of list" :key="i">
+            <input type="checkbox" class="select" v-model="item.cb" >
+            <img :src="'http://127.0.0.1:3000/'+item.Pimg" alt="图片已损">
             <div class="shop-product-con">
-                <p>维斯康 宠物羊奶粉 猫奶粉 狗奶粉 宠物狗狗保健品 幼犬用羊奶粉300g</p>
+                <p>{{item.pname}}</p>
                 <p>
-                    <span>￥20</span>
-                    <span>小计(元):￥50</span>
+                    <span>￥{{item.price}}</span>
+                    <span>小计(元):￥{{sum=item.price*item.count}}</span>
                 </p>
                 <div class="sum">
-                    <div class="btn">
-                         <span @click="reduce">－</span>
-                         <input type="text" v-model="vulue">
-                         <span @click="add">＋</span>
-                     </div>
-                    <mt-button type="default">删除</mt-button>
+                    <!-- 应用增减按钮组件 -->
+                    <cartcontrol :listItem=item></cartcontrol>
+                    <mt-button type="default" @click.native="delItem" :data-gid="item.gid">删除</mt-button>
                 </div>
             </div>
         </div>
         <!-- 底部结算 -->
         <div class="sum-bottom">
-            <input type="checkbox" class="select">
-            <span>合计:￥1000000</span>
-            <mt-button type="default">删除选中商品</mt-button>
-            <mt-button type="default">结算(5)</mt-button>
+            <!-- <input type="checkbox" class="select"> -->
+            <span>合计:￥{{sums.sum}}</span>
+            <mt-button type="default" @click.native="delMitem" >删除选中商品</mt-button>
+            <mt-button type="default">结算({{sums.count}})</mt-button>
         </div>
     </div>
 </template>
 <script>
+// 引入增减按钮组件
+import Cartcontrol from "./Cartcontrol"
 export default{
     data(){
         return{
-             list:[],//购物车列表//商品的数量
-             vulue:1
+             list:[],//购物车列表商品的数据
         }
     },
-    created(){
-       
+     created(){
+        this.loadMore();
+    },
+    // 注册
+    components:{
+        //注册增减按钮组件
+        "cartcontrol":Cartcontrol
+    },
+    computed:{
+        sums(){
+            // 总的价格,和总的数量
+            var sums={
+                count:0,
+                sum:0
+            };
+            this.list.forEach((elem,i)=>{
+                sums.sum+=elem.count*elem.price;
+                // 得到数量是字符串转化为数字
+                sums.count+=Number(elem.count);
+            });
+            return sums;
+        }
     },
      methods:{
+         delMitem(){
+            //  删除购物车指定的多个商品
+            // 创建变量保存多个购物车的gid
+            var str="";
+            // 创建循环遍历数组来获取状态为turn的gid
+            for(var item of this.list){
+                if(item.cb){//turn 当前商品被选中
+                    str+=item.gid+","//将gid拼接
+                }
+            }
+            // 判断用户有没有选中商品
+            if(str.length==0){
+                // 如果没有选中商品，提示用户
+                this.$messagebox("请选择要删除的商品")
+                return;//停止执行
+            }
+            // 截取字符串
+            str=str.substring(0,str.length-1);
+            // 交互模式提示框，再次提示用户确认操作
+            this.$messagebox.confirm("是否删除选中的商品").then(res=>{
+                // 确认
+                //创建接口 /delM
+                var url="delM";
+                //参数名ids:值拼接字符串
+                var gids={gids:str};
+                 // 发送ajax 
+                 this.axios.get(url,{params:gids}).then(res=>{
+                    //  删除成功就加载新的购物车列表
+                    this.loadMore();
+                    // 提示删除成功
+                    this.$toast("删除成功");
+                 });
+
+            })
+         },
+         delItem(e){
+            //  删除指定的商品
+            // 获取购物车的gid
+            var gid=e.target.dataset.gid;
+            // 交互提示用户是否删除指定的商品
+            this.$messagebox.confirm("是否删除指定的商品").then(res=>{
+                //-同意
+                //-发送ajax 服务器端程序 /del?gid=1
+                var url="del";//请求的接口
+                var obj={gid:gid};//发送的参数
+                //-返回服务器返回内容
+                this.axios.get(url,{params:obj}).then(res=>{
+                    //如果返回成功，成功的条件为code>0
+                    if(res.data.code>0){
+                        this.$toast("删除成功");//提示信息
+                         this.loadMore();//加载新的列表
+                    }
+                })
+            })
+            
+         },
          selectAll(e){
             //console.log(123);
             //全选按钮处理函数
             //1:获取全选按钮状态
-            console.log(e)
             var cb = e.target.checked;
             //console.log(cb);
             //2:创建循环遍历购物车数组
@@ -68,24 +141,36 @@ export default{
         go(){
          this.$router.go(-1);//返回上一层
         },
-        // 点击减按钮时商品数量自减
-        reduce(){
-            if(this.vulue==1){
-                this.$messagebox("信息","数量不能小于或大于1000");
-            }
-            if(this.vulue>1){
-                this.vulue--;
-            }
-        },
-        // 点击加按钮时增加商品数量
-        add(){
-            if(this.vulue==999){
-                this.$messagebox("信息","数量不能小于或大于1000");
-            }
-            if(this.vulue<1000){
-                this.vulue++;
-            }
-        },
+        loadMore(){
+            // 加载购物车数据表
+            // 创建ajax请求
+            var url="cart";
+            this.axios.get(url).then(res=>{
+                // 返回的结果是-1，就提示登录，并跳转到登录界面
+                if(res.data.code==-1){
+                    //提示交互提示/跳转登录组件
+                    this.$messagebox("消息","请登录").then(res=>{
+                        this.$router.push("/Login");
+                        return;
+                    });
+                }else{
+                    //获取数据成功
+                    var list=res.data.data;
+                    // 创建循环遍历数组并且为每个元素添加cd属性表示，商品当前复选框状态
+                    // 加载之前先清空
+                    this.$store.commit("clear");
+                    // 注意先添加cb属性再赋值list顺序
+                    for(var item of list){
+                        //添加cd属性表示状态
+                        item.cb=false;
+                        // 修改共享购物车数据值vuex
+                        this.$store.commit("increment")
+                    }
+                    // 保存购物车数据表
+                    this.list=list;
+                }
+            });
+        }
     }
 }
 </script>
@@ -95,7 +180,9 @@ export default{
     width: 100%;
     height: 100%;
     color: #222;
-    padding: 32px 0;
+    padding-top:32px;
+    padding-bottom:55px;
+    
 }
     /* 购物车头 */
 .shopcart-head{
@@ -191,38 +278,7 @@ export default{
      align-items:center;
     padding: 5px 0;
  }
-.btn{
-    width: 99px;
-    height: 27px;
-    box-sizing: border-box;
-    border-radius: 4px;
-    border: 1px solid #CCCCCC;
-}
 
-.btn>input{
-    width: 35px;
-    text-align: center;
-    font-size: 14px;
-    text-shadow: none;
-    text-transform: none;
-    outline: none;
-    border: 0;
-    background: #fff;
-}
-
-.btn>span{
-    text-align: center;
-    display:inline-block;
-    font-weight: bold;
-    width: 27px;
-    height: 27px;
-}
-.btn>span:nth-child(3){
-    border-left: 1px solid #CCCCCC;
-}
-.btn>span:first-child{
-    border-right: 1px solid #CCCCCC;
-}
 /* 底部结算 */
 .sum-bottom{
     width: 100%;
@@ -233,6 +289,7 @@ export default{
     justify-content: space-around;
     align-items: center;
     left: 0;
+    background: #fff;
 }
 .sum-bottom>span{
     color: #ff0000;

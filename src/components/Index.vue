@@ -12,7 +12,7 @@
             </mt-tab-container-item>
             <mt-tab-container-item id="shop">
                    <!-- 应用购物车面板组件 -->
-                   <shopitem></shopitem>
+                   
             </mt-tab-container-item>
             <mt-tab-container-item id="me">
                     <!-- 应用用户面板组件 -->
@@ -35,11 +35,15 @@
                 :focused="currentIndex[1].isSelect"></tabbaricon>
                 分类
             </mt-tab-item>
-            <mt-tab-item id="shop" @click.native="changeState(2)" >
+            <mt-tab-item id="shop" @click.native="changeState(2)" style="position:relative;">
                 <tabbaricon
                 :normalImage="require('../assets/shop.png')"
                 :selectedImage="require('../assets/shop_active.png')"
-                :focused="currentIndex[2].isSelect"></tabbaricon>
+                :focused="currentIndex[2].isSelect">
+                <!-- 有有添加商品就显示红色数量园点 -->
+                </tabbaricon>
+                <div class="shopcart-red" v-show="count">{{count}}</div>
+                
                 购物
             </mt-tab-item>
             <mt-tab-item id="me" @click.native="changeState(3)">
@@ -59,13 +63,13 @@ import IndexItem from "../views/index/IndexItem"
 import TabBarIcon from "./TabBarIcon"
 // 引入分类面板组件
 import KindItem from "../views/kind/KindItem"
-// 引入购物车面板组件
-import ShopItem from "../views/shop/ShopItem"
+
 
     export default{
         data(){
             return{
                 selected:"index",
+                count:0,//保存购物车商品的数量
                 // 保存焦点后的状态
                 currentIndex:[
                     {isSelect:true},
@@ -75,11 +79,32 @@ import ShopItem from "../views/shop/ShopItem"
                 ]
             }
         },
+        mounted(){
+            // 从数据库先查看购物车的商品数量，
+                    var url="cart";
+                    this.axios.get(url).then(res=>{
+                        // 如果没有登录就不显示
+                        if(res.data.code==-1){
+                            return;
+                        }else{
+                            for(var item of res.data.data){
+                                this.count+=Number(item.count);
+                            }
+                        }
+                    })
+        },
         methods:{
             // 将对当前参数的下标，对应的数组值修改为true,其他为false
             changeState(n){
                 // 如果点击到
-                if(n==2){this.$router.push("/ShopCart");}
+                if(n==2){
+                    // 先查看购物车有没有商品，然后跳转到相应的页面
+                     if(this.count==0){
+                        this.$router.push("/NullShop");
+                    }else{
+                        this.$router.push("/ShopCart");
+                    }
+                }
                 if(n==3){this.$router.push("/Login");}
                 for(var i=0;i<this.currentIndex.length;i++){
                     // 判断如果循环下标与n相等，相等显示对应的图片，其他都不显示
@@ -104,8 +129,6 @@ import ShopItem from "../views/shop/ShopItem"
             "indexitem":IndexItem,
             // 注册分类面板组件
             "kinditem":KindItem,
-            // 注册购物车面板组件
-            "shopitem":ShopItem 
         }
     }
 </script>
@@ -117,5 +140,20 @@ background-color: #fff;
 .mint-tabbar > .mint-tab-item.is-selected{
     background-color: transparent;
     color: #ec563b;
+}
+/* 添加的购物车商品数量 */
+.shopcart-red {
+  position:absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 9px;
+  line-height: 15px;
+  text-align: center;
+  right: 25px;
+  top: 0;
+  z-index: 100;
 }
 </style>
