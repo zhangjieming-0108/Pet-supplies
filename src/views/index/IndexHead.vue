@@ -4,12 +4,30 @@
         <!-- 遮罩层 -->
         <div class="popContainer" v-show="isShow" @click="toggle"></div>
         <div class="hidden-layer" v-show="isShow" @click="toggle">
-            <p>首页</p>
-            <p>狗狗</p>
-            <p>猫猫</p>
-            <p>小宠</p>
-            <p>水族</p>
-            <p>品牌</p>
+            <p>
+               <img src="../../assets/home-icon.png" alt="图片已损坏">
+               <span>首页</span>
+            </p>
+            <p>
+               <img src="../../assets/dog_cion.png" alt="图片已损坏">
+               <span>狗狗</span>
+            </p>
+            <p>
+               <img src="../../assets/cat-icon.png" alt="图片已损坏">
+               <span>猫猫</span>
+            </p>
+            <p>
+               <img src="../../assets/smallPamper-cion.png" alt="图片已损坏">
+               <span>小宠</span>
+            </p>
+            <p>
+               <img src="../../assets/waterClan-icon.png" alt="图片已损坏">
+               <span>水族</span>
+            </p>
+            <p>
+               <img src="../../assets/brand-icon.png" alt="图片已损坏">
+               <span>品牌</span>
+            </p>
         </div>
         <!-- logon图片 -->
         <img src="../../assets/logo.png" alt="图片已损坏">
@@ -63,8 +81,18 @@ div.popContainer {
     top: 0px;
     padding: 10px 0px;
     transition: all 0.5s ease-in;
-}.hidden-layer>P{
+}
+.hidden-layer>P{
+    padding: 0 10px;
     color: #fff;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+.hidden-layer>P>img{
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
 }
 /* logon的样式 */
     img{

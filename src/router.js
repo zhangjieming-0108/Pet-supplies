@@ -11,6 +11,8 @@ import Product from "./views/product/Product.vue"
 import ShopCart from "./views/shop/ShopCart.vue"
 // 引入空的购物车组件
 import NullShop from "./views/shop/NullShop.vue"
+// 引入登录之后的组件 
+import LoginAfter from "./views/user/LoginAfter.vue"
 
 Vue.use(Router)
 
@@ -21,6 +23,7 @@ export default new Router({
     {path: '/Register', component: Register},
     {path: '/Product/:pid', component: Product,props:true},
     {path: '/ShopCart', component: ShopCart},
-    {path: '/NullShop', component: NullShop}
+    {path: '/NullShop', component: NullShop},
+    {path: '/LoginAfter', component:LoginAfter}
   ]
 })

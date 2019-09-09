@@ -35,59 +35,54 @@
 </template>
 <script>
 // 引入狗狗商品列表组件
-import KindGog from "./KindGog"
+import KindGog from "./KindGog";
 // 引入猫猫商品列表组件
-import KingCat from "./KingCat"
+import KingCat from "./KingCat";
 // 引入 小宠商品列表组件
-import SmallPamper from "./SmallPamper"
+import SmallPamper from "./SmallPamper";
 // 引入水族商品列表组件
-import WaterClan from "./WaterClan"
+import WaterClan from "./WaterClan";
 // 引入水族商品列表组件
-import Brand from "./Brand"
-    export default{
-        data(){
-            return{
-                selected:"dog",
-                ns:[1,2,3,4,5,6,7,8,9],
-                ns1:[1,2,3,4,5,6,7,8,9],
-                ns2:[1,2,3,4,5,6,7,8,9]
-            }
-        },
-        // 注册 
-        components:{
-            // 注册狗狗商品列表组件
-            "kinddog":KindGog,
-            // 注册猫猫商品列表组件
-            "kingcat":KingCat,
-            // 注册小宠商品列表组件
-            "smallpamper":SmallPamper,
-            // 注册水族商品列表组件
-            "waterclan":WaterClan,
-            // 注册品牌馆组件
-            "brand":Brand
-
-        },
-    }
+import Brand from "./Brand";
+export default {
+  data() {
+    return {
+      selected: "dog"
+    };
+  },
+  // 注册
+  components: {
+    // 注册狗狗商品列表组件
+    kinddog: KindGog,
+    // 注册猫猫商品列表组件
+    kingcat: KingCat,
+    // 注册小宠商品列表组件
+    smallpamper: SmallPamper,
+    // 注册水族商品列表组件
+    waterclan: WaterClan,
+    // 注册品牌馆组件
+    brand: Brand
+  }
+};
 </script>
 <style scoped>
 /* 修改文字的样式 */
-.mint-navbar .mint-tab-item.is-selected{
-    color: #ec563b;
+.mint-navbar .mint-tab-item.is-selected {
+  color: #ec563b;
 }
-div>.kind-head{
-    position: fixed;
-    z-index:10;
-    text-align: center;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    line-height: 40px;
-    max-width: 648px;
-    padding: 0 30px;
-    margin: 0 auto;
-    border-bottom: 1px solid #C7C7C7;
-    background-image: -webkit-linear-gradient(top,#FEFEFE,#F8F8F8);
+div > .kind-head {
+  position: fixed;
+  z-index: 10;
+  text-align: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  line-height: 40px;
+  max-width: 648px;
+  padding: 0 30px;
+  margin: 0 auto;
+  border-bottom: 1px solid #c7c7c7;
+  background-image: -webkit-linear-gradient(top, #fefefe, #f8f8f8);
 }
-
 </style>

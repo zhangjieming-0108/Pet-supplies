@@ -8,9 +8,9 @@
         </div>
         <!-- 商品轮播图 -->
        <mt-swipe :auto="3000" class="product1">
-            <mt-swipe-item><img class="img" :src="'http://127.0.0.1:3000/' + list.Pimg"  alt="图片以损坏"></mt-swipe-item>
-            <mt-swipe-item><img class="img" :src="'http://127.0.0.1:3000/' + list.Pimg" alt="图片以损坏"></mt-swipe-item>
-            <mt-swipe-item><img class="img" :src="'http://127.0.0.1:3000/' + list.Pimg" alt="图片以损坏"></mt-swipe-item>
+            <mt-swipe-item><img class="img" :src="'http://pelww.applinzi.com/' + list.Pimg"  alt="图片以损坏"></mt-swipe-item>
+            <mt-swipe-item><img class="img" :src="'http://pelww.applinzi.com/' + list.Pimg" alt="图片以损坏"></mt-swipe-item>
+            <mt-swipe-item><img class="img" :src="'http://pelww.applinzi.com/' + list.Pimg" alt="图片以损坏"></mt-swipe-item>
        </mt-swipe>
        <!-- 商品内容 -->
        <p class="product-content">
@@ -66,7 +66,7 @@
         <div class="add-shop-content" v-show="show">
                  <div class="add-shop-item">
                      <!-- 图片 -->
-                     <img class="img" :src="'http://127.0.0.1:3000/' + list.Pimg"  alt="图片以损坏">
+                     <img class="img" :src="'http://pelww.applinzi.com/' + list.Pimg"  alt="图片以损坏">
                      <!-- 内容 -->
                      <div class="add-shop-product-content">
                          <span>{{list.pname}}</span>

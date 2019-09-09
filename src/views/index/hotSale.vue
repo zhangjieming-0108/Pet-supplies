@@ -4,7 +4,7 @@
         <div class="hot">热卖</div>
         <div class="hotsale-item">
             <div class="item-content" v-for="(elem,i) of list" :key="i" @click="goproduct(elem.pid)">
-                <img :src="'http://127.0.0.1:3000/' + elem.Pimg" alt="图片已损坏">
+                <img :src="'http://pelww.applinzi.com/' + elem.Pimg" alt="图片已损坏">
                 <span>{{elem.pname}}</span>
                 <span>￥{{elem.price}}</span>
             </div>

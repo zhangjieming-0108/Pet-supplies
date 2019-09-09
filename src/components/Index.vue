@@ -70,6 +70,7 @@ import KindItem from "../views/kind/KindItem"
             return{
                 selected:"index",
                 count:0,//保存购物车商品的数量
+                isLogin:"",//保存是否登录的凭证
                 // 保存焦点后的状态
                 currentIndex:[
                     {isSelect:true},
@@ -83,6 +84,8 @@ import KindItem from "../views/kind/KindItem"
             // 从数据库先查看购物车的商品数量，
                     var url="cart";
                     this.axios.get(url).then(res=>{
+                        // 把是否登录的凭证数值保存起来
+                        this.isLogin=res.data.code;
                         // 如果没有登录就不显示
                         if(res.data.code==-1){
                             return;
@@ -98,14 +101,20 @@ import KindItem from "../views/kind/KindItem"
             changeState(n){
                 // 如果点击到
                 if(n==2){
-                    // 先查看购物车有没有商品，然后跳转到相应的页面
+                    // 先判断用户是否登录 购物车有没有商品，然后跳转到相应的页面
                      if(this.count==0){
                         this.$router.push("/NullShop");
                     }else{
                         this.$router.push("/ShopCart");
                     }
                 }
-                if(n==3){this.$router.push("/Login");}
+                if(n==3){
+                    if(this.isLogin==-1){
+                        this.$router.push("/Login");
+                    }else{
+                        this.$router.push("/LoginAfter");
+                    }
+                }
                 for(var i=0;i<this.currentIndex.length;i++){
                     // 判断如果循环下标与n相等，相等显示对应的图片，其他都不显示
                     if(n==i){

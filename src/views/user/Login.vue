@@ -1,5 +1,5 @@
 <template>
-<!-- 用户面板组件 -->
+<!-- 用户登录组件 -->
     <div class="user">
         <div class="register-head">
             <span class="small" @click="go">＜</span>
